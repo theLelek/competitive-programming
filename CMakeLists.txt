@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(competetive_programming
         cses/sorting_and_searching/subarray_sum.cpp
-        aoi/Binomialkoeffizient.cpp
+        aoi/2026/Binomialkoeffizient.cpp
         cses/dp/dice_combinations.cpp
         cses/dp/minimizing_coins.cpp
         cses/intro/increasing_array.cpp

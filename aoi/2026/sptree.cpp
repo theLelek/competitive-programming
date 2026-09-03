@@ -1,7 +1,7 @@
-#include "sptree.h"
+#include "../sptree.h"
 #include <cstdio>
 #include <stdio.h>
-#include "sptree.h"
+#include "../sptree.h"
 
 #include <vector>
 
