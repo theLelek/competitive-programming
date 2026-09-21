@@ -8,7 +8,7 @@ vector<int> numbers2;
 
 vector<vector<pair<int, vector<int>>>> dp;
 
-int solveRecursively(int idx1, int idx2) {
+int solveRecursively(int idx1, int idx2) { // will use too much memory on one of the inputs
     if (idx1 == numbers1.size() || idx2 == numbers2.size()) {
         return 0;
     }
@@ -38,6 +38,20 @@ int solveRecursively(int idx1, int idx2) {
 
     dp.at(idx1).at(idx2) = {ansLength, ansList};
     return ansLength;
+}
+
+pair<int, vector<int>> solveIteratively() {
+    for (int i = 0; i < numbers1.size(); i++) {
+        vector<int> dp(numbers2.size());
+        for (int j = 0; j < numbers2.size(); j++) {
+            if (numbers1.at(i) == numbers2.at(j)) {
+                int toAdd = j == 0 ? 0 : dp.at(j - 1);
+                dp.at(j) = 1 + toAdd;
+            }
+        }
+    }
+
+
 }
 
 int main() {
