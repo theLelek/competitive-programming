@@ -45,8 +45,8 @@ pair<int, vector<int>> solveIteratively() {
     vector<pair<int, vector<int>>> dpPrevious;
     vector<pair<int, vector<int>>> dpCurrent(numbers2.size());
     for (int i = 0; i < numbers1.size(); i++) {
-        fill(dpCurrent.begin(), dpCurrent.end(), pair<int, vector<int>>(1, {}));
-        
+        fill(dpCurrent.begin(), dpCurrent.end(), pair<int, vector<int>>(0, {}));
+
         for (int j = 0; j < numbers2.size(); j++) { // todo what if a pair exists multiple times
             if (numbers1.at(i) == numbers2.at(j)) {
                 int toAdd = i == 0 || j == 0 ? 0 : dpPrevious.at(j - 1).first;
