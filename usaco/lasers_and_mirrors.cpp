@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -81,6 +82,12 @@ int compress(vector<int> &list, int target) {
 }
 
 int main() {
+    ifstream in("lasers.in");
+    ofstream out("lasers.out");
+
+    cin.rdbuf(in.rdbuf());
+    cout.rdbuf(out.rdbuf());
+
     int n;
     int x1; int y1;
     int x2; int y2;
@@ -97,8 +104,8 @@ int main() {
         coords.push_back(c);
     }
 
-    vector<int> yCoordsCompressor = substitute(coords, true);
-    vector<int> xCoordsCompressor = substitute(coords, false);
+    vector<int> yCoordsCompressor = substitute(coords, false);
+    vector<int> xCoordsCompressor = substitute(coords, true);
     sort(yCoordsCompressor.begin(), yCoordsCompressor.end());
     sort(xCoordsCompressor.begin(), xCoordsCompressor.end());
 
@@ -125,28 +132,7 @@ int main() {
     q.push_back({root, root, 0});
     vector<bool> visitedRows(n + 5);
     vector<bool> visitedColumns(n + 5);
-    //
-    // while (! q.empty()) {
-    //     element current = q.front();
-    //     if (current.current == target) {
-    //         break;
-    //     }
-    //     q.pop_front();
-    //     for (int i = 0; i < columns.at(current.current.x).size(); i++) {
-    //         if (visitedRows.at(current.current.y)) break;
-    //         coord currentCoord = columns.at(current.current.x).at(i);
-    //         add(q, current, currentCoord);
-    //     }
-    //
-    //     for (int i = 0; i < rows.at(current.current.y).size(); i++) {
-    //         if (visitedColumns.at(current.current.x)) break;
-    //         coord currentCoord = rows.at(current.current.y).at(i);
-    //         add(q, current, currentCoord);
-    //     }
-    //
-    //     visitedRows.at(current.current.y) = true;
-    //     visitedColumns.at(current.current.x) = true;
-    // }
+
     while (!q.empty()) {
         element current = q.front();
 
