@@ -35,14 +35,14 @@ int solveRecursively(int idx1, int idx2) { // will use too much memory on one of
             ansLength = ans2Length;
             ansList = dp.at(idx1).at(idx2 + 1).second;
         }
-    }
+    } // todo what if a pair exists multiple times
 
     dp.at(idx1).at(idx2) = {ansLength, ansList};
     return ansLength;
 }
 
 pair<int, vector<int>> solveIteratively() {
-    vector<pair<int, vector<int>>> dpPrevious;
+    vector<pair<int, vector<int>>> dpPrevious(numbers2.size());
     vector<pair<int, vector<int>>> dpCurrent(numbers2.size());
     for (int i = 0; i < numbers1.size(); i++) {
         fill(dpCurrent.begin(), dpCurrent.end(), pair<int, vector<int>>(0, {}));
@@ -50,16 +50,22 @@ pair<int, vector<int>> solveIteratively() {
         for (int j = 0; j < numbers2.size(); j++) { // todo what if a pair exists multiple times
             if (numbers1.at(i) == numbers2.at(j)) {
                 int toAdd = i == 0 || j == 0 ? 0 : dpPrevious.at(j - 1).first;
+                vector<int> previousList = i == 0 || j == 0 ? vector<int>() : dpPrevious.at(j - 1).second;
                 dpCurrent.at(j).first = 1 + toAdd;
+                dpCurrent.at(j).second = previousList;
+                dpCurrent.at(j).second.push_back(numbers1.at(i));
+
             } else {
-                int ans1 = i == 0 ? 0 : dpPrevious.at(j).first;
-                int ans2 = j == 0 ? 0 : dpCurrent.at(j - 1).first;
-                dp.at(i).at(j).first = max(ans1, ans2);
+                pair<int, vector<int>> ans1 = i == 0 ? pair<int, vector<int>>() : dpPrevious.at(j);
+                pair<int, vector<int>> ans2 = j == 0 ? pair<int, vector<int>>() : dpCurrent.at(j - 1);
+
+                pair<int, vector<int>> ans = ans1.first > ans2.first ? ans1 : ans2;
+                dpCurrent.at(j) = ans;
             }
         }
         dpPrevious = dpCurrent;
     }
-    return {dpCurrent.at(m - 1).first, {}};
+    return {dpCurrent.at(m - 1).first, dpCurrent.at(m - 1).second};
 }
 
 int main() {
