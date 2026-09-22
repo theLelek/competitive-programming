@@ -3,6 +3,7 @@
 
 using namespace std;
 
+int n; int m;
 vector<int> numbers1;
 vector<int> numbers2;
 
@@ -41,21 +42,27 @@ int solveRecursively(int idx1, int idx2) { // will use too much memory on one of
 }
 
 pair<int, vector<int>> solveIteratively() {
+    vector<pair<int, vector<int>>> dpPrevious;
+    vector<pair<int, vector<int>>> dpCurrent(numbers2.size());
     for (int i = 0; i < numbers1.size(); i++) {
-        vector<int> dp(numbers2.size());
-        for (int j = 0; j < numbers2.size(); j++) {
+        fill(dpCurrent.begin(), dpCurrent.end(), pair<int, vector<int>>(1, {}));
+        
+        for (int j = 0; j < numbers2.size(); j++) { // todo what if a pair exists multiple times
             if (numbers1.at(i) == numbers2.at(j)) {
-                int toAdd = j == 0 ? 0 : dp.at(j - 1);
-                dp.at(j) = 1 + toAdd;
+                int toAdd = i == 0 || j == 0 ? 0 : dpPrevious.at(j - 1).first;
+                dpCurrent.at(j).first = 1 + toAdd;
+            } else {
+                int ans1 = i == 0 ? 0 : dpPrevious.at(j).first;
+                int ans2 = j == 0 ? 0 : dpCurrent.at(j - 1).first;
+                dp.at(i).at(j).first = max(ans1, ans2);
             }
         }
+        dpPrevious = dpCurrent;
     }
-
-
+    return {dpCurrent.at(m - 1).first, {}};
 }
 
 int main() {
-    int n; int m;
     cin >> n; cin >> m;
     dp.resize(n + 5, vector<pair<int, vector<int>>>(m + 5, {-1, {}}));
 
@@ -69,10 +76,18 @@ int main() {
         numbers2.push_back(c);
     }
 
-    int ans = solveRecursively(0, 0);
-    cout << ans << "\n";
-    for (int i = dp.at(0).at(0).second.size() - 1; i >= 0; i--) {
-        if (dp.at(0).at(0).second.size() == 0) break;
-        cout << dp.at(0).at(0).second.at(i) << " ";
+    // int ans = solveRecursively(0, 0);
+    // cout << ans << "\n";
+    // for (int i = dp.at(0).at(0).second.size() - 1; i >= 0; i--) {
+    //     if (dp.at(0).at(0).second.size() == 0) break;
+    //     cout << dp.at(0).at(0).second.at(i) << " ";
+    // }
+
+    pair<int, vector<int>> ans = solveIteratively();
+    cout << ans.first << "\n";
+
+    for (int element : ans.second) {
+        cout << element << " ";
     }
+    return 0;
 }
