@@ -14,18 +14,22 @@ int solveRecursively(int idx1, int idx2) {
     }
 
     string s1Copy = s1;
+    
+    
+    // adds bfore idx1
+    s1.insert(s1.begin() + idx1, s2.at(idx2));
+    int ans2 = 1 + solveRecursively(idx1 + 1, idx2 + 1);
+    s1.erase(idx1, 1);
+    s1 = s1Copy;
 
+    // replace
     int toAdd1 = s1.at(idx1) == s2.at(idx2) ? 0 : 1;
     s1.at(0) = s2.at(0);
     int ans1 = toAdd1 + solveRecursively(idx1 + 1, idx2 + 1);
     s1 = s1Copy;
 
-    s1.insert(s1.begin(), s2.at(0));
-    int ans2 = 1 + solveRecursively(idx1 + 1, idx2 + 1);
-    s1.erase(0, 1);
-    s1 = s1Copy;
-
-    s1.erase(0, 1);
+    // remove
+    s1.erase(idx1, 1);
     int ans3 = 1 + solveRecursively(idx1, idx2 + 1);
 
     int ans = min(ans1, max(ans2, ans3));
