@@ -38,6 +38,13 @@ string s1; string s2;
 
 int solveIteratively() {
     vector<vector<int>> dp(s1.size() + 5, vector<int>(s2.size() + 5));
+    for (int i = 1; i <= s2.size(); i++) {
+        dp.at(0).at(i) = i;
+    }
+    for (int i = 1; i <= s1.size(); i++) {
+        dp.at(i).at(0) = i;
+    }
+
     for (int i = 1; i <= s1.size(); i++) {
         for (int j = 1; j <= s2.size(); j++) {
             int ans1 = 1 + dp.at(i).at(j - 1); // adds before i
