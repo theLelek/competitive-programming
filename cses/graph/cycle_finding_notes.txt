@@ -1,0 +1,15 @@
+bellman ford for detecting negative cycles
+
+
+edge list representation makes it easier
+
+a distance list is created with a default value of 0
+
+loop through every edge n - 1 times
+
+if after 1 more iteration of edges the distance changes a cycle must exist
+
+following the nodes parent that changed will lead to the cycle
+
+
+
