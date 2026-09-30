@@ -5,12 +5,12 @@ using namespace std;
 
 int n; int m;
 vector<int> numbers1;
-vector<int> numbers2;
+vector<int> numbersInput;
 
 vector<vector<pair<int, vector<int>>>> dp;
 
 int solveRecursively(int idx1, int idx2) { // will use too much memory on one of the inputs
-    if (idx1 == numbers1.size() || idx2 == numbers2.size()) {
+    if (idx1 == numbers1.size() || idx2 == numbersInput.size()) {
         return 0;
     }
     if (dp.at(idx1).at(idx2).first != -1) {
@@ -20,7 +20,7 @@ int solveRecursively(int idx1, int idx2) { // will use too much memory on one of
     int ansLength;
     vector<int> ansList;
 
-    if (numbers1.at(idx1) == numbers2.at(idx2)) {
+    if (numbers1.at(idx1) == numbersInput.at(idx2)) {
         ansLength = 1 + solveRecursively(idx1 + 1, idx2 + 1);
         ansList = dp.at(idx1 + 1).at(idx2 + 1).second;
         ansList.push_back(numbers1.at(idx1));
@@ -42,13 +42,13 @@ int solveRecursively(int idx1, int idx2) { // will use too much memory on one of
 }
 
 pair<int, vector<int>> solveIteratively() {
-    vector<pair<int, vector<int>>> dpPrevious(numbers2.size());
-    vector<pair<int, vector<int>>> dpCurrent(numbers2.size());
+    vector<pair<int, vector<int>>> dpPrevious(numbersInput.size());
+    vector<pair<int, vector<int>>> dpCurrent(numbersInput.size());
     for (int i = 0; i < numbers1.size(); i++) {
         fill(dpCurrent.begin(), dpCurrent.end(), pair<int, vector<int>>(0, {}));
 
-        for (int j = 0; j < numbers2.size(); j++) { // todo what if a pair exists multiple times
-            if (numbers1.at(i) == numbers2.at(j)) {
+        for (int j = 0; j < numbersInput.size(); j++) { // todo what if a pair exists multiple times
+            if (numbers1.at(i) == numbersInput.at(j)) {
                 int toAdd = i == 0 || j == 0 ? 0 : dpPrevious.at(j - 1).first;
                 vector<int> previousList = i == 0 || j == 0 ? vector<int>() : dpPrevious.at(j - 1).second;
                 dpCurrent.at(j).first = 1 + toAdd;
@@ -79,7 +79,7 @@ int main() {
     }
     for (int i = 0; i < m; i++) {
         int c; cin >> c;
-        numbers2.push_back(c);
+        numbersInput.push_back(c);
     }
 
     // int ans = solveRecursively(0, 0);

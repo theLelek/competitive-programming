@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 vector<bool> dp;
 
 
@@ -28,10 +28,10 @@ void addElements(vector<bool> &a, vector<bool> b) {
 
 void solveIteratively(int n) {
 //    dp.insert(numbers.at(0));
-    dp.at(numbers.at(0)) = true;
+    dp.at(numbersInput.at(0)) = true;
     for (int i = 1; i < n; i++) {
         vector<bool> holder(dp.size());
-        int ans1 = numbers.at(i);
+        int ans1 = numbersInput.at(i);
         holder.at(ans1) = true;
 
         for (int i = 0; i < dp.size(); i++) {
@@ -48,7 +48,7 @@ void solveIteratively(int n) {
 int main() {
     int n; cin >> n;
     for (int i = 0; i < n; i++) {
-        int c; cin >> c; numbers.push_back(c);
+        int c; cin >> c; numbersInput.push_back(c);
     }
     dp.resize(100 * 1000 + 5);
     solveIteratively(n);

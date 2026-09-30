@@ -5,13 +5,13 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 vector<int> segmentTree;
 
 int getMin(int from, int to, int index) {
     if (from == to) {
-        segmentTree.at(index) = numbers.at(from);
-        return numbers.at(from);
+        segmentTree.at(index) = numbersInput.at(from);
+        return numbersInput.at(from);
     }
 
     int left = getMin(from, from + (to - from) / 2, index * 2);
@@ -21,8 +21,8 @@ int getMin(int from, int to, int index) {
 }
 
 vector<int> buildSegmentTree() {
-    segmentTree.resize(numbers.size() * 4, INT_MIN);
-    getMin(0, numbers.size() - 1, 1);
+    segmentTree.resize(numbersInput.size() * 4, INT_MIN);
+    getMin(0, numbersInput.size() - 1, 1);
 
     return segmentTree;
 }
@@ -66,7 +66,7 @@ int main() {
 
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
     buildSegmentTree();
 //    cout << answer(0, numbers.size() - 1, 1, 6, 7);
@@ -77,10 +77,10 @@ int main() {
         cin >> a; cin >> b;
         if (type == 1) {
             // update
-            update(0, numbers.size() - 1, 1, a - 1, b);
+            update(0, numbersInput.size() - 1, 1, a - 1, b);
         } else {
             // answer
-            cout << answer(0, numbers.size() - 1, 1, a - 1, b - 1) << "\n";
+            cout << answer(0, numbersInput.size() - 1, 1, a - 1, b - 1) << "\n";
         }
     }
 

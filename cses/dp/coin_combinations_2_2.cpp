@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 vector<vector<int>> dp;
 
 int solveRecursively(int idx, int targetSum) {
@@ -19,8 +19,8 @@ int solveRecursively(int idx, int targetSum) {
     }
 
     int ans = 0;
-    for (int i = idx; i < numbers.size(); i++) {
-        ans += solveRecursively(i, targetSum - numbers.at(i));
+    for (int i = idx; i < numbersInput.size(); i++) {
+        ans += solveRecursively(i, targetSum - numbersInput.at(i));
         ans %= 1000000007;
     }
     dp.at(idx).at(targetSum) = ans;
@@ -28,17 +28,17 @@ int solveRecursively(int idx, int targetSum) {
 }
 
 int solveIteratively(int x) {
-    for (int i = 0; i < numbers.size(); i++) {
+    for (int i = 0; i < numbersInput.size(); i++) {
         dp.at(i).at(0) = 1;
         for (int j = 1; j <= x; j++) {
             int ans = (i > 0) ? dp.at(i - 1).at(j): 0;
-            if (j - numbers.at(i) >= 0) {
-                ans += dp.at(i).at(j - numbers.at(i));
+            if (j - numbersInput.at(i) >= 0) {
+                ans += dp.at(i).at(j - numbersInput.at(i));
             }
             dp.at(i).at(j) = ans % 1000000007;
         }
     }
-    return dp.at(numbers.size() - 1).at(x);
+    return dp.at(numbersInput.size() - 1).at(x);
 }
 
 int main() {
@@ -46,7 +46,7 @@ int main() {
     dp.resize(n + 5, vector<int>(x + 5, 1)); // change for recursive
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
     int out = solveIteratively(x);
     cout << out;

@@ -5,12 +5,12 @@
 using namespace std;
 
 int n; int t;
-vector<int> numbers;
+vector<int> numbersInput;
 
 long long amountOfProducts(long long time) {
     long long products = 0;
-    for (int i = 0; i < numbers.size(); i++) {
-        long long currentAmount = time / numbers.at(i);
+    for (int i = 0; i < numbersInput.size(); i++) {
+        long long currentAmount = time / numbersInput.at(i);
         products += currentAmount;
         if (currentAmount >= t) return products;
     }
@@ -41,7 +41,7 @@ int main() {
 
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
 
 

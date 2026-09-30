@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 vector<int> dp;
 
 int solveRecursively(int neededCoins) {
@@ -19,8 +19,8 @@ int solveRecursively(int neededCoins) {
     }
 
     int best = INT_MAX / 2;
-    for (int i = 0; i < numbers.size(); i++) {
-        best = min(best, 1 + solveRecursively(neededCoins - numbers.at(i)));
+    for (int i = 0; i < numbersInput.size(); i++) {
+        best = min(best, 1 + solveRecursively(neededCoins - numbersInput.at(i)));
     }
     dp.at(neededCoins) = best;
     return best;
@@ -30,9 +30,9 @@ int solveIteratively(int x) {
     dp.at(0) = 0;
     for (int i = 1; i <= x; i++) {
         int best = INT_MAX / 2;
-        for (int j = 0; j < numbers.size(); j++) {
-            if (i - numbers.at(j) < 0) continue;
-            best = min(best, 1 + dp.at(i - numbers.at(j)));
+        for (int j = 0; j < numbersInput.size(); j++) {
+            if (i - numbersInput.at(j) < 0) continue;
+            best = min(best, 1 + dp.at(i - numbersInput.at(j)));
         }
         dp.at(i) = best;
     }
@@ -44,7 +44,7 @@ int main() {
     dp.resize(x + 5, -1);
     for (int i = 0; i < n ; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
     int ans = solveIteratively(x);
     if (ans == INT_MAX / 2) {

@@ -4,13 +4,13 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 vector<long long> segmentTree;
 
 long long buildSegmentTree(int nodeFrom, int nodeTo, int index) {
     if (nodeFrom == nodeTo) {
-        segmentTree.at(index) = numbers.at(nodeFrom);
-        return numbers.at(nodeFrom);
+        segmentTree.at(index) = numbersInput.at(nodeFrom);
+        return numbersInput.at(nodeFrom);
     }
 
     int m = nodeFrom + (nodeTo - nodeFrom) / 2;
@@ -58,11 +58,11 @@ int main() {
 
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
 
-    segmentTree.resize(numbers.size() * 4, INT_MIN / 2);
-    buildSegmentTree(0, numbers.size() - 1, 1);
+    segmentTree.resize(numbersInput.size() * 4, INT_MIN / 2);
+    buildSegmentTree(0, numbersInput.size() - 1, 1);
 
 //    cout << answer(0, numbers.size() - 1, 1, 1, 3);
 
@@ -72,10 +72,10 @@ int main() {
         cin >> a; cin >> b;
         if (type == 1) {
             // update
-            update(0, numbers.size() - 1, 1, a - 1, b);
+            update(0, numbersInput.size() - 1, 1, a - 1, b);
         } else {
             // answer
-            cout << answer(0, numbers.size() - 1, 1, a - 1, b - 1) << "\n";
+            cout << answer(0, numbersInput.size() - 1, 1, a - 1, b - 1) << "\n";
         }
     }
 

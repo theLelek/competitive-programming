@@ -7,18 +7,18 @@
 using namespace std;
 
 int n; int k;
-vector<int> numbers;
+vector<int> numbersInput;
 
 bool canAllCowsBeKilled(int power) {
     int leftIndex = 0;
     for (int i = 0; i < k; i++) {
-        int end = numbers.at(leftIndex) + power * 2;
+        int end = numbersInput.at(leftIndex) + power * 2;
         int j;
-        for (j = 0; j < numbers.size(); j++) {
-            if (numbers.at(j) > end) break;
+        for (j = 0; j < numbersInput.size(); j++) {
+            if (numbersInput.at(j) > end) break;
         }
         leftIndex = j;
-        if (leftIndex == numbers.size()) return true;
+        if (leftIndex == numbersInput.size()) return true;
     }
     return false;
 }
@@ -43,9 +43,9 @@ int main() {
     fin >> n; fin >> k;
     for (int i = 0; i < n; i++) {
         int c; fin >> c,
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
-    sort(numbers.begin(), numbers.end());
+    sort(numbersInput.begin(), numbersInput.end());
 
     fout << firstTrue();
 }

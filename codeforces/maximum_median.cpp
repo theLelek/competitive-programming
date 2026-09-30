@@ -5,18 +5,18 @@
 using namespace std;
 
 int n; int k;
-vector<int> numbers;
+vector<int> numbersInput;
 
 long long getOperations(int medianIncrease) {
-    int medianIdx = numbers.size() / 2;
+    int medianIdx = numbersInput.size() / 2;
     long long count = 0;
-    long medianToSet = numbers.at(medianIdx) + medianIncrease;
-    for (int i = medianIdx; i < numbers.size(); i++) {
-        if (numbers.at(i) >= medianToSet) {
+    long medianToSet = numbersInput.at(medianIdx) + medianIncrease;
+    for (int i = medianIdx; i < numbersInput.size(); i++) {
+        if (numbersInput.at(i) >= medianToSet) {
             continue;
         }
 
-        count += medianToSet - numbers.at(i);
+        count += medianToSet - numbersInput.at(i);
     }
     return count;
 }
@@ -44,21 +44,21 @@ int main() {
     cin >> n; cin >> k;
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
 
-    sort(numbers.begin(), numbers.end());
+    sort(numbersInput.begin(), numbersInput.end());
 
     // last true
 
-    int medianIndex = numbers.size() / 2;
+    int medianIndex = numbersInput.size() / 2;
 
     int lastTrueIndex = lastTrue(0, k + 5);
 
     if (lastTrueIndex == -1) {
-        cout << numbers.at(medianIndex);
+        cout << numbersInput.at(medianIndex);
     } else {
-        cout << numbers.at(medianIndex) + lastTrueIndex;
+        cout << numbersInput.at(medianIndex) + lastTrueIndex;
     }
     return 0;
 }

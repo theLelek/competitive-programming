@@ -4,7 +4,7 @@
 using namespace std;
 
 vector<long long> dp; // index = coin sum | value = how many combinations
-vector<int> numbers;
+vector<int> numbersInput;
 
 // int solveRecursively(int targetSum, int idx) {
 //     if (targetSum == 0) {
@@ -32,11 +32,11 @@ vector<int> numbers;
 int solveIteratively(int targetSum) {
     dp.assign(targetSum + 5, 0);
     dp.at(0) = 1;
-    for (int i = 0; i < numbers.size(); i++) {
+    for (int i = 0; i < numbersInput.size(); i++) {
         // index
         for (int j = 1; j <= targetSum; j++) {
             // targetSum
-            int currentNumber = numbers.at(i);
+            int currentNumber = numbersInput.at(i);
             int prev = j - currentNumber;
             if (prev < 0) {
                 continue;
@@ -53,7 +53,7 @@ int main() {
     int n; int x; cin >> n; cin >> x;
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
 
 //    dp.resize(x + 5, vector<int>(n + 5, -1));

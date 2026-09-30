@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<int> numbers;
+vector<int> numbersInput;
 int n;
 int k;
 
@@ -13,14 +13,14 @@ int minimumAmountOfSubArrays(long long maxSum) {
     int amount = 1;
 
     long long currentSum = 0;
-    for (int i = 0; i < numbers.size(); i++) {
-        if (numbers.at(i) > maxSum) return -1;
+    for (int i = 0; i < numbersInput.size(); i++) {
+        if (numbersInput.at(i) > maxSum) return -1;
 
-        currentSum += numbers.at(i);
+        currentSum += numbersInput.at(i);
 
         if (currentSum > maxSum) {
             amount++;
-            currentSum = numbers.at(i);
+            currentSum = numbersInput.at(i);
         }
     }
     return amount;
@@ -49,7 +49,7 @@ int main() {
     cin >> n; cin >> k;
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
     cout << firstTrue() << "\n";
 

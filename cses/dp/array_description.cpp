@@ -4,12 +4,12 @@
 using namespace std;
 
 
-vector<int> numbers;
+vector<int> numbersInput;
 int m;
 vector<vector<int>> dp;
 
 int solveRecursively(int idx, int prevValue) {
-    if (idx == numbers.size()) {
+    if (idx == numbersInput.size()) {
         return 1;
     }
     if (dp.at(idx).at(prevValue) != -1) {
@@ -17,13 +17,13 @@ int solveRecursively(int idx, int prevValue) {
     }
     int ans = 0;
 
-    if (numbers.at(idx) != 0) {
-        if (abs(prevValue - numbers.at(idx)) > 1) {
+    if (numbersInput.at(idx) != 0) {
+        if (abs(prevValue - numbersInput.at(idx)) > 1) {
             return 0;
         }
-        ans += solveRecursively(idx + 1, numbers.at(idx));
+        ans += solveRecursively(idx + 1, numbersInput.at(idx));
         ans %= 1000000007;
-        dp.at(idx).at(numbers.at(idx)) = ans;
+        dp.at(idx).at(numbersInput.at(idx)) = ans;
         return ans;
     }
 
@@ -46,9 +46,9 @@ int main() {
     for (int i = 0; i < n; i++) {
         int c;
         cin >> c;
-        numbers.push_back(c);
+        numbersInput.push_back(c);
     }
     dp.resize(n + 5, vector<int>(m + 5, -1));
-    cout << solveRecursively(0, numbers.at(0));
+    cout << solveRecursively(0, numbersInput.at(0));
     return 0;
 }
