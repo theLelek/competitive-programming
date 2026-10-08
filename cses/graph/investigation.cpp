@@ -12,8 +12,8 @@ struct element {
 
 struct qElement {
     int node;
-    int dist;
-    int amountOfFlights;
+    long long dist;
+    long long amountOfFlights;
 
     bool operator<(const qElement& other) const {
         return dist < other.dist;
@@ -22,12 +22,11 @@ struct qElement {
 
 int n; int m;
 vector<vector<element>> adjacencyList;
-vector<int> dist;
 
-int outMinPrice;
-int outAmount;
-int outMinFlights = INT_MAX;
-int outMaxFlights = INT_MIN;
+vector<long long> dist;
+vector<long long> amountOfRoutes;
+vector<long long> minNumberOfFlights;
+vector<long long> maxNumberOfFlights;
 
 void dijkstra() {
     priority_queue<qElement> queue;
@@ -35,21 +34,20 @@ void dijkstra() {
     while (queue.size() > 0) {
         qElement current = queue.top();
         queue.pop();
-        if (dist.at(current.node) < current.dist) continue;
-        dist.at(current.node) = current.dist;
+        if (current.dist > dist.at(current.node)) continue;
 
-        if (current.node == n) {
-            if (outMinPrice > current.dist) {
-                outMinPrice = current.dist;
-                outAmount = 0;
-                outMinFlights = INT_MAX;
-                outMaxFlights = INT_MIN;
-            }
-            if (outAmount == 0 || out.at(0).dist == current.dist) {
-                out.push_back(current);
-            }
+        if (dist.at(current.node) == current.dist) {
+            amountOfRoutes.at(current.node)++;
+            amountOfRoutes.at(current.node) %= 1000000007;
+            minNumberOfFlights.at(current.node) = min(minNumberOfFlights.at(current.node), current.amountOfFlights);
+            maxNumberOfFlights.at(current.node) = max(maxNumberOfFlights.at(current.node), current.amountOfFlights);
             continue;
         }
+
+        dist.at(current.node) = current.dist;
+        amountOfRoutes.at(current.node) = 1;
+        minNumberOfFlights.at(current.node) = current.amountOfFlights;
+        maxNumberOfFlights.at(current.node) = current.amountOfFlights;
 
         for (element node : adjacencyList.at(current.node)) {
             if (dist.at(node.node) < node.weight + current.dist) continue;
@@ -64,8 +62,10 @@ int main() {
     cin >> n; cin >> m;
 
     adjacencyList.resize(n + 1, {});
-    dist.resize(n + 1, INT_MAX);
-    dist.at(1) = 0;
+    dist.resize(n + 1, LONG_LONG_MAX);
+    amountOfRoutes.resize(n + 1);
+    minNumberOfFlights.resize(n + 1, LONG_LONG_MAX);
+    maxNumberOfFlights.resize(n + 1, LONG_LONG_MIN);
 
     for (int i = 0; i < m; i++) {
         int a; int b; int c;
@@ -75,16 +75,9 @@ int main() {
 
     dijkstra();
 
-    cout << out.at(0).dist << " ";
-    cout << out.size() << " ";
-
-    int minFlights = INT_MAX;
-    int maxFlights = INT_MIN;
-    for (qElement element : out) {
-        minFlights = min(minFlights, element.amountOfFlights);
-        maxFlights = max(maxFlights, element.amountOfFlights);
-    }
-    cout << minFlights << " ";
-    cout << maxFlights << " ";
+    cout << dist.at(n) << " ";
+    cout << amountOfRoutes.at(n) << " ";
+    cout << minNumberOfFlights.at(n) << " ";
+    cout << maxNumberOfFlights.at(n) << " ";
     return 0;
 }
