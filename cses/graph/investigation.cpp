@@ -23,7 +23,11 @@ struct qElement {
 int n; int m;
 vector<vector<element>> adjacencyList;
 vector<int> dist;
-vector<qElement> out;
+
+int outMinPrice;
+int outAmount;
+int outMinFlights = INT_MAX;
+int outMaxFlights = INT_MIN;
 
 void dijkstra() {
     priority_queue<qElement> queue;
@@ -35,10 +39,13 @@ void dijkstra() {
         dist.at(current.node) = current.dist;
 
         if (current.node == n) {
-            if (out.size() != 0 && out.at(0).dist > current.dist) {
-                out = {};
+            if (outMinPrice > current.dist) {
+                outMinPrice = current.dist;
+                outAmount = 0;
+                outMinFlights = INT_MAX;
+                outMaxFlights = INT_MIN;
             }
-            if (out.size() == 0 || out.at(0).dist == current.dist) {
+            if (outAmount == 0 || out.at(0).dist == current.dist) {
                 out.push_back(current);
             }
             continue;
