@@ -13,10 +13,9 @@ struct element {
 struct qElement {
     int node;
     long long dist;
-    long long amountOfFlights;
 
     bool operator<(const qElement& other) const {
-        return dist < other.dist;
+        return dist > other.dist;
     }
 };
 
@@ -36,21 +35,20 @@ void dijkstra() {
         queue.pop();
         if (current.dist > dist.at(current.node)) continue;
 
-        if (dist.at(current.node) == current.dist) {
-            amountOfRoutes.at(current.node)++;
-            amountOfRoutes.at(current.node) %= 1000000007;
-            minNumberOfFlights.at(current.node) = min(minNumberOfFlights.at(current.node), current.amountOfFlights);
-            maxNumberOfFlights.at(current.node) = max(maxNumberOfFlights.at(current.node), current.amountOfFlights);
-            continue;
-        }
-
-        dist.at(current.node) = current.dist;
-        amountOfRoutes.at(current.node) = 1;
-        minNumberOfFlights.at(current.node) = current.amountOfFlights;
-        maxNumberOfFlights.at(current.node) = current.amountOfFlights;
-
         for (element node : adjacencyList.at(current.node)) {
             if (dist.at(node.node) < node.weight + current.dist) continue;
+
+            if (dist.at(node.node) == current.dist + node.weight) {
+                amountOfRoutes.at(node.node)++;
+                amountOfRoutes.at(node.node) %= 1000000007;
+                minNumberOfFlights.at(node.node) = min(minNumberOfFlights.at(node.node), 1 + current.amountOfFlights);
+                maxNumberOfFlights.at(node.node) = max(maxNumberOfFlights.at(node.node), 1 + current.amountOfFlights);
+                continue;
+            }
+            dist.at(node.node) = current.dist + node.weight;
+            amountOfRoutes.at(node.node) = 1;
+            minNumberOfFlights.at(node.node) = 1 + current.amountOfFlights;
+            maxNumberOfFlights.at(node.node) = 1 + current.amountOfFlights;
 
             qElement currentQElement = {node.node, current.dist + node.weight, current.amountOfFlights + 1};
             queue.push(currentQElement);
