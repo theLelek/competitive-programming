@@ -29,7 +29,7 @@ vector<long long> maxNumberOfFlights;
 
 void dijkstra() {
     priority_queue<qElement> queue;
-    queue.push({1, 0, 0});
+    queue.push({1, 0});
     while (queue.size() > 0) {
         qElement current = queue.top();
         queue.pop();
@@ -41,16 +41,16 @@ void dijkstra() {
             if (dist.at(node.node) == current.dist + node.weight) {
                 amountOfRoutes.at(node.node)++;
                 amountOfRoutes.at(node.node) %= 1000000007;
-                minNumberOfFlights.at(node.node) = min(minNumberOfFlights.at(node.node), 1 + current.amountOfFlights);
-                maxNumberOfFlights.at(node.node) = max(maxNumberOfFlights.at(node.node), 1 + current.amountOfFlights);
+                minNumberOfFlights.at(node.node) = min(minNumberOfFlights.at(node.node), 1 + minNumberOfFlights.at(current.node));
+                maxNumberOfFlights.at(node.node) = max(maxNumberOfFlights.at(node.node), 1 + maxNumberOfFlights.at(current.node));
                 continue;
             }
             dist.at(node.node) = current.dist + node.weight;
             amountOfRoutes.at(node.node) = 1;
-            minNumberOfFlights.at(node.node) = 1 + current.amountOfFlights;
-            maxNumberOfFlights.at(node.node) = 1 + current.amountOfFlights;
+            minNumberOfFlights.at(node.node) = min(minNumberOfFlights.at(node.node), 1 + minNumberOfFlights.at(current.node));
+            maxNumberOfFlights.at(node.node) = max(maxNumberOfFlights.at(node.node), 1 + maxNumberOfFlights.at(current.node));
 
-            qElement currentQElement = {node.node, current.dist + node.weight, current.amountOfFlights + 1};
+            qElement currentQElement = {node.node, current.dist + node.weight};
             queue.push(currentQElement);
         }
     }
