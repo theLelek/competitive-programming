@@ -4,44 +4,26 @@
 
 using namespace std;
 
-vector<int> input;
+vector<int> numbers;
 
-int getFirstLowerOrEqual(int target) {
-    // get last true
-    int l = -1;
-    int r = input.size() - 1;
-    while (l < r) {
-        int m = l + (r - l + 1) / 2;
-        if (input.at(m) <= target) {
-            l = m;
-        } else {
-            r = m - 1;
-        }
-    }
-    if (l == -1) return -1;
-    return input.at(l);
-}
+int getMinPower(int launchCoordinate) {
 
-bool canTargetAll(int power) {
-    int left = input.at(0);
-    int right = getFirstLowerOrEqual(left + power);
-    while (left != right) {
-        left = right;
-        right = getFirstLowerOrEqual(left + power);
-    }
-    return left == input.back();
+
+
+    return -1;
 }
 
 int main() {
     int n; cin >> n;
     for (int i = 0; i < n; i++) {
         int c; cin >> c;
-        input.push_back(c);
+        numbers.push_back(c * 2);
     }
-    sort(input.begin(), input.end());
-
-    cout << canTargetAll(3);
-
+    sort(numbers.begin(), numbers.end());
+    for (int i = 1; i < n; i++) {
+        numbers.push_back((numbers.at(i - 1) + numbers.at(i)) / 2);
+    }
+    sort(numbers.begin(), numbers.end());
 
 
     return 0;
